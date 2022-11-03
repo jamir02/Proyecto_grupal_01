@@ -19,13 +19,11 @@ def get_ability(offset = 0):
             for ability in results:
                 name_ability = ability['name']
                 url_ability = ability['url']
-                #print(name_ability)
-                #print(url_ability)
                 list_ability.append(name_ability)
                 list_url_ability.append(url_ability)
             get_ability(offset= offset +20)
 
-def get_ability_pokemon():
+def get_ability_pokemon(url2_ability):
     response = requests.get(url2_ability)
     if response.status_code == 200:
         payload = response.json()
@@ -49,8 +47,8 @@ def list_pokemon(pokemon):
         abilities = payload.get('abilities', [])
         sprite = payload.get('sprites',[])
 
-        print("El nombre del pokemon es ", pokemon)
-        print("Las habilidades de ", pokemon, "son las siguientes: ")
+        print("El nombre del pokemon es", pokemon)
+        print("Las habilidades de", pokemon, "son las siguientes: ")
         if abilities:
             for ability in abilities:
                 ability_pokemon = ability['ability']['name']
@@ -61,18 +59,30 @@ def list_pokemon(pokemon):
             sprite_pokemon = sprite['other']['official-artwork']['front_default']
             print(sprite_pokemon)
 
+def Opcion_3 ():
+    list_pokemon_selected.clear()
+    url_list_pokemon_selected.clear()
+    input_ability = input("Ingresa el nombre de la habilidad (Ej: torrent, infiltrator, insomnia, damp, volt-absorb): ").lower()
+    while (not(input_ability in list_ability)):
+        input_ability = input("Debe ingresar el nombre de una habilidad válida (Ej: torrent, infiltrator, insomnia, damp, volt-absorb): ").lower()
+
+    print("La habilidad escogida es:", input_ability)
+    print()
+    ability_index = list_ability.index(input_ability)
+    url2_ability = list_url_ability[ability_index]
+
+    get_ability_pokemon(url2_ability)
+
+    for pokemon in list_pokemon_selected:
+        list_pokemon(pokemon)
+        print()
+    response_yn = input("¿Deseas escoger otra habilidad? [y/n]: ").lower()
+    while (not(response_yn in ['y','n'])):
+        response_yn = input("¿Deseas escoger otra habilidad? [y/n]: ").lower()
+    if response_yn == 'y':
+        Opcion_3()
+
 get_ability()
-
-input_ability = input("Ingresa el nombre de la habilidad (Ej: torrent, infiltrator, insomnia, damp, volt-absorb, static): ").lower()
-while (not(input_ability in list_ability)):
-    input_ability = input("Debe ingresar el nombre de una habilidad válida (Ej: torrent, infiltrator, insomnia, damp, volt-absorb, static): ").lower()
-
-ability_index = list_ability.index(input_ability)
-url2_ability = list_url_ability[ability_index]
-
-get_ability_pokemon()
-
-for pokemon in list_pokemon_selected:
-    list_pokemon(pokemon)
+Opcion_3()
 
 
