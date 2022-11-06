@@ -162,13 +162,8 @@ def Opcion_4():
     if response_yn == 'y':
         Opcion_4()
 
-#get_ability()
-#Opcion_3()
+get_ability()
+Opcion_3()
 get_habitat()
 Opcion_4()
-#print(list_habitat)
-#print(list_url_habitat)
-#print(list_pokemon_selected)
-#print(url_list_pokemon_species)
-#print(url_list_pokemon_selected)
 
