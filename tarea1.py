@@ -222,12 +222,30 @@ def buscar_libro_7(dict_libros):
 
 
 # OPCION 8
+def buscar_libro_numero_autores(dict_libros):
+    num_autores_ingresado = int(input("Ingresar el número de autores: "))
+    libros = []
+    for id in dict_libros:
+        libros.append(str(dict_libros[id]["autores"]).lower())
+
+    dup = {x for x in libros if libros.count(x) == num_autores_ingresado}
+    print(dup)
 
 # OPCION 9
 
 # OPCION 10
-
-# TODO
+def guardar_libros_10(dict_libros):
+    my_file= "libros.csv"
+    print ("Guardando libros en el disco duro...")
+    file = open(my_file, "w")
+    file.close()
+    with open(my_file, "w", encoding="utf-8") as file:
+        file.write("titulo,genero,ISBN,editorial,autores\n")
+        for id in dict_libros:
+            datos = ",".join(['"'+str(dict_libros[id]["titulo"])+'"',str(dict_libros[id]["genero"]), str(dict_libros[id]["ISBN"]),'"'+str(dict_libros[id]["editorial"])+'"','"'+str(dict_libros[id]["autores"][0])+'"' ])        
+            file.write(datos + "\n")
+        file.close()
+    print("Se guadaron los libros con éxito.")
 
 opciones = {
     1: "Leer archivo",
@@ -285,10 +303,11 @@ def programa():
         elif op == 7:
             buscar_libro_7(dict_libros)
         elif op == 8:
-            pass
+            buscar_libro_numero_autores(dict_libros)
         elif op == 9:
             pass
         elif op == 10:
+            guardar_libros_10(dict_libros)
             pass
         else:
             break
