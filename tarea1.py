@@ -1,3 +1,5 @@
+import csv
+
 class Libro:
     def __init__(self, id: int, titulo: str, genero: str, ISBN: str, editorial: str, autores: list[str]) -> None:
         self.__id = id
