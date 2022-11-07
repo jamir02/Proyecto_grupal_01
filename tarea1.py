@@ -308,7 +308,6 @@ def programa():
             pass
         elif op == 10:
             guardar_libros_10(dict_libros)
-            pass
         else:
             break
         # funciones[op](lista_libros)
