@@ -1,3 +1,5 @@
+import csv
+
 class Libro:
     def __init__(self, id: int, titulo: str, genero: str, ISBN: str, editorial: str, autores: list[str]) -> None:
         self.__id = id
@@ -45,3 +47,25 @@ class Libro:
 
     def __del__(self) -> None:
         return None
+
+
+#función para validar que la entrada del usuario no sea vacio
+
+def validar_respuesta(entrada: str) -> str:
+
+    while True:
+        variable = input(entrada)
+        if variable != "":
+            return variable.strip()
+        print("El valor a ingresar no debe ser vacio")
+
+#funcion para validar que el dato ingresado  sea del tipo int
+
+def validarInt(mensaje: str) -> int:
+    
+    while True:
+        variable = input(mensaje)
+        if variable.isnumeric():
+            variable = int(variable)
+            return variable
+        print("El valor a ingresar debe ser un número")
