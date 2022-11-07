@@ -102,15 +102,17 @@ def obtener_dict():
     global lista_libros
     global dict_libros
     for libro in lista_libros:
-        dict_libros[libro.get_id()] = {
-            "titulo": libro.get_titulo(),
-            "genero": libro.get_genero(),
-            "ISBN": libro.get_ISBN(),
-            "editorial": libro.get_editorial(),
-            "autores": libro.get_autores(),
-        }
+        if libro.get_id() not in dict_libros:
+            dict_libros[libro.get_id()] = {
+                "titulo": libro.get_titulo(),
+                "genero": libro.get_genero(),
+                "ISBN": libro.get_ISBN(),
+                "editorial": libro.get_editorial(),
+                "autores": libro.get_autores(),
+            }
 
-def print_libro(id):
+
+def imprimir_libro(id):
     # print("Libro: ")
     print("ID:", id)
     print("titulo:", dict_libros[id]["titulo"])
@@ -123,7 +125,7 @@ def print_libro(id):
 # OPCION 1
 def obtener_lista():
     global lista_libros
-    direccion = input("Escriba la dirección del archivo .txt o .csv: ")
+    # direccion = input("Escriba la dirección del archivo .txt o .csv: ")
     direccion = "libros.csv"
     try:
         open(direccion, "rb")
@@ -152,14 +154,36 @@ def obtener_lista():
                     autores,
                 )
                 lista_libros.append(libro)
-        print("Archivo cargado")
+
+        # print("Archivo cargado")
 
 
 # OPCION 2
+def imprimir_libros():
+    for id in dict_libros:
+        imprimir_libro(id)
+        print("-" * 10)
+
 
 # OPCION 3
+def agrega_libro():
+    global lista_libros
+    id = len(lista_libros)
+    titulo = input("Titulo del libro: ")
+    genero = input("Genero del libro: ")
+    ISBN = input("ISBN del libro: ")
+    editorial = input("Editorial de libro: ")
+    autores = input("Autores del libro: ")
+    libro_nuevo = Libro(id, titulo, genero, ISBN, editorial, autores)
+    lista_libros.append(libro_nuevo)
+
+    obtener_dict()
+
 
 # OPCION 4
+def elimina_libro():
+    pass
+
 
 # OPCION 5
 def buscar_por_opcion(texto, opcion, dict_libros):
@@ -167,7 +191,7 @@ def buscar_por_opcion(texto, opcion, dict_libros):
     for id in dict_libros:
         if str(dict_libros[id][opcion]).lower() == a_buscar:
             print("Libro encontrado! ")
-            print_libro(id)
+            imprimir_libro(id)
 
 
 def buscar_libro_5(dict_libros):
@@ -178,7 +202,13 @@ def buscar_libro_5(dict_libros):
     elif resp == "T":
         buscar_por_opcion("Que titulo quiere buscar?: ", "titulo", dict_libros)
 
+
 # OPCION 6
+def ordenar_por_titulo():
+    sorted_dict = dict(sorted(dict_libros.items(), key=lambda item: item[1]["titulo"]))
+    print("Libros ordenados por titulo")
+    print(sorted_dict)
+
 
 # OPCION 7
 def buscar_libro_7(dict_libros):
@@ -214,36 +244,44 @@ opciones = {
 
 funciones = {
     1: obtener_lista,
+    2: imprimir_libros,
+    3: agrega_libro,
+    4: elimina_libro,
     5: buscar_libro_5,
+    6: ordenar_por_titulo,
+    7: buscar_libro_7,
+    8: "todo",
+    9: "todo",
+    10: "todo",
 }
 
 
 def programa():
+    print(ASCII_TITULO)
+    for opcion in opciones:
+        print(f"Opcion #{opcion}: {opciones[opcion]} ")
+    obtener_lista()
+    obtener_dict()
     while True:
-        print(ASCII_TITULO)
-
-        for opcion in opciones:
-            print(f"Opcion #{opcion}: {opciones[opcion]} ")
-
-        obtener_lista()
-        obtener_dict()
-
         # print("lista_libros", lista_libros)
         # print("dict_libros", dict_libros)
+        op = input("Escoja una opcion: ")
+        if op == "" or not op.isnumeric():
+            break
+        op = int(op)
 
-        op = int(input("Escoja una opcion: "))
         if op == 1:
             obtener_lista()
         elif op == 2:
-            pass
+            imprimir_libros()
         elif op == 3:
-            pass
+            agrega_libro()
         elif op == 4:
-            pass
+            elimina_libro()
         elif op == 5:
             buscar_libro_5(dict_libros)
         elif op == 6:
-            pass
+            ordenar_por_titulo()
         elif op == 7:
             buscar_libro_7(dict_libros)
         elif op == 8:
@@ -252,8 +290,12 @@ def programa():
             pass
         elif op == 10:
             pass
+        else:
+            break
         # funciones[op](lista_libros)
-        break
+
+        # print(dict_libros)
+        # break
 
 
 programa()
