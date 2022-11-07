@@ -233,7 +233,7 @@ def programa():
 
         op = int(input("Escoja una opcion: "))
         if op == 1:
-            pass
+            obtener_lista()
         elif op == 2:
             pass
         elif op == 3:
