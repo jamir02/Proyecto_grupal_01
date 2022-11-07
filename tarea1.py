@@ -228,21 +228,31 @@ def programa():
         obtener_lista()
         obtener_dict()
 
-        print("lista_libros", lista_libros)
-        print("dict_libros", dict_libros)
+        # print("lista_libros", lista_libros)
+        # print("dict_libros", dict_libros)
 
         op = int(input("Escoja una opcion: "))
-        if op == 5:
+        if op == 1:
+            pass
+        elif op == 2:
+            pass
+        elif op == 3:
+            pass
+        elif op == 4:
+            pass
+        elif op == 5:
             buscar_libro_5(dict_libros)
         elif op == 6:
             pass
         elif op == 7:
             buscar_libro_7(dict_libros)
+        elif op == 8:
+            pass
+        elif op == 9:
+            pass
+        elif op == 10:
+            pass
         # funciones[op](lista_libros)
-
-        obtener_dict(lista_libros)
-        # print(dict_libros)
-
         break
 
 
