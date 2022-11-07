@@ -1,7 +1,17 @@
 import csv
+import sys
+
 
 class Libro:
-    def __init__(self, id: int, titulo: str, genero: str, ISBN: str, editorial: str, autores: list[str]) -> None:
+    def __init__(
+        self,
+        id: int,
+        titulo: str,
+        genero: str,
+        ISBN: str,
+        editorial: str,
+        autores: list[str],
+    ) -> None:
         self.__id = id
         self.__titulo = titulo
         self.__genero = genero
@@ -49,7 +59,8 @@ class Libro:
         return None
 
 
-#función para validar que la entrada del usuario no sea vacio
+# función para validar que la entrada del usuario no sea vacio
+
 
 def validar_respuesta(entrada: str) -> str:
 
@@ -59,16 +70,20 @@ def validar_respuesta(entrada: str) -> str:
             return variable.strip()
         print("El valor a ingresar no debe ser vacio")
 
-#funcion para validar que el dato ingresado  sea del tipo int
+
+# funcion para validar que el dato ingresado  sea del tipo int
+
 
 def validarInt(mensaje: str) -> int:
-    
+
     while True:
         variable = input(mensaje)
         if variable.isnumeric():
             variable = int(variable)
             return variable
         print("El valor a ingresar debe ser un número")
+
+
 ASCII_TITULO = """
  __       __  .______   .______       _______ .______       __       ___      
 |  |     |  | |   _  \  |   _  \     |   ____||   _  \     |  |     /   \     
@@ -79,11 +94,39 @@ ASCII_TITULO = """
 
 """
 
+lista_libros = []
+dict_libros = {}
+
+
+def obtener_dict():
+    global lista_libros
+    global dict_libros
+    for libro in lista_libros:
+        dict_libros[libro.get_id()] = {
+            "titulo": libro.get_titulo(),
+            "genero": libro.get_genero(),
+            "ISBN": libro.get_ISBN(),
+            "editorial": libro.get_editorial(),
+            "autores": libro.get_autores(),
+        }
+
+def print_libro(id):
+    # print("Libro: ")
+    print("ID:", id)
+    print("titulo:", dict_libros[id]["titulo"])
+    print("genero:", dict_libros[id]["genero"])
+    print("ISBN:", dict_libros[id]["ISBN"])
+    print("editorial:", dict_libros[id]["editorial"])
+    print("autores:", dict_libros[id]["autores"])
+
+
 # OPCION 1
-def obtener_lista(lista_libros) -> list:
+def obtener_lista():
+    global lista_libros
     direccion = input("Escriba la dirección del archivo .txt o .csv: ")
+    direccion = "libros.csv"
     try:
-        open(direccion, 'rb')
+        open(direccion, "rb")
     except FileNotFoundError:
         print(f"Archivo {direccion} no encontrado")
         sys.exit(1)
@@ -91,7 +134,7 @@ def obtener_lista(lista_libros) -> list:
         print(f"Error de OS al tratar de abrir {direccion}")
         sys.exit(1)
     except Exception as err:
-        print(f"Error inesperado al abrir {direccion}.",repr(err))
+        print(f"Error inesperado al abrir {direccion}.", repr(err))
         sys.exit(1)
     else:
         with open(direccion, "r", encoding="utf-8") as csv_file:
@@ -111,6 +154,49 @@ def obtener_lista(lista_libros) -> list:
                 lista_libros.append(libro)
         print("Archivo cargado")
 
+
+# OPCION 2
+
+# OPCION 3
+
+# OPCION 4
+
+# OPCION 5
+def buscar_por_opcion(texto, opcion, dict_libros):
+    a_buscar = input(texto).lower()
+    for id in dict_libros:
+        if str(dict_libros[id][opcion]).lower() == a_buscar:
+            print("Libro encontrado! ")
+            print_libro(id)
+
+
+def buscar_libro_5(dict_libros):
+    resp = input("Buscar el libro por ISBN (I) o titulo (T)? ").upper()
+    if resp == "I":
+        buscar_por_opcion("Que ISBN quiere buscar?: ", "ISBN", dict_libros)
+
+    elif resp == "T":
+        buscar_por_opcion("Que titulo quiere buscar?: ", "titulo", dict_libros)
+
+# OPCION 6
+
+# OPCION 7
+def buscar_libro_7(dict_libros):
+    resp = input("Buscar el libro por autor (A), editorial (E) o genero (G)? ").upper()
+    if resp == "A":
+        buscar_por_opcion("Que autor quiere buscar?: ", "autores", dict_libros)
+    elif resp == "E":
+        buscar_por_opcion("Que editorial quiere buscar?: ", "editorial", dict_libros)
+    elif resp == "G":
+        buscar_por_opcion("Que genero quiere buscar?: ", "genero", dict_libros)
+
+
+# OPCION 8
+
+# OPCION 9
+
+# OPCION 10
+
 # TODO
 
 opciones = {
@@ -123,12 +209,14 @@ opciones = {
     7: "Buscar libros por autor, editorial o genero",
     8: "Buscar libros por número de autores",
     9: "Editar o actualizar datos de un libro (título, género, ISBN, editorial y autores)",
-    10: "Guardar libros en archivo de disco duro (.txt o csv)"
+    10: "Guardar libros en archivo de disco duro (.txt o csv)",
 }
 
 funciones = {
     1: obtener_lista,
+    5: buscar_libro_5,
 }
+
 
 def programa():
     while True:
@@ -136,11 +224,26 @@ def programa():
 
         for opcion in opciones:
             print(f"Opcion #{opcion}: {opciones[opcion]} ")
-    
-        lista_inicial_libros, lista_libros = [], []
-        op = int(input("Escoja una opcion: "))
 
-        funciones[op](lista_inicial_libros)
-        
+        obtener_lista()
+        obtener_dict()
+
+        print("lista_libros", lista_libros)
+        print("dict_libros", dict_libros)
+
+        op = int(input("Escoja una opcion: "))
+        if op == 5:
+            buscar_libro_5(dict_libros)
+        elif op == 6:
+            pass
+        elif op == 7:
+            buscar_libro_7(dict_libros)
+        # funciones[op](lista_libros)
+
+        obtener_dict(lista_libros)
+        # print(dict_libros)
+
         break
+
+
 programa()
